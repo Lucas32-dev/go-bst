@@ -1,7 +1,7 @@
 package bst
 
 func (b bst) Search(value int) (NodeValue, bool) {
-	node :=  b.searchByNode(b.root, value)
+	node := b.searchNode(value)
 	if node == nil {
 		return nil, false
 	}
@@ -9,17 +9,21 @@ func (b bst) Search(value int) (NodeValue, bool) {
 	return node.value, true
 }
 
-func (b bst) searchByNode(root *node, value int) (*node) {
-	if root == nil {
-		return nil
+func (b bst) searchNode(value int) *node {
+	var nv int
+	n := b.root
+
+	for n != nil {
+		nv = n.Value()
+
+		if value > nv {
+			n = n.right
+		} else if value < nv {
+			n = n.left
+		} else {
+			return n
+		}
 	}
 
-	rv := root.Value()
-	if value > rv {
-		return b.searchByNode(root.right, value)
-	} else if value < rv {
-		return b.searchByNode(root.left, value)
-	} else {
-		return root
-	}
+	return nil
 }

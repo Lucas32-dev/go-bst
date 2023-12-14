@@ -7,43 +7,49 @@ var (
 )
 
 func (b *bst) Insert(value NodeValue) error {
-	root, err := b.insertByNode(b.root, value) 
+	err := b.insertNode(value)
 	if err != nil {
 		return err
 	}
 
-	b.root = root
 	b.len++
 	return nil
 }
 
-func (b *bst) insertByNode(root *node, value NodeValue) (*node, error) {
-	if root == nil {
-		return &node{
-			value: value,
-		}, nil
+func (b *bst) insertNode(value NodeValue) error {
+	newNode := &node{
+		value: value,
+	}
+
+	if b.root == nil {
+		b.root = newNode
+		return nil
 	}
 
 	v := value.Value()
-	rv := root.Value()
+	n := b.root
 
-	if v > rv {
-		n, err := b.insertByNode(root.right, value)
-		if err != nil {
-			return nil, err
+	var nv int
+	for {
+		nv = n.Value()
+		if v > nv {
+			if n.right == nil {
+				n.right = newNode
+				break
+			}
+
+			n = n.right
+		} else if v < nv {
+			if n.left == nil {
+				n.left = newNode
+				break
+			}
+
+			n = n.left
+		} else {
+			return ErrDuplicatedNodeValue
 		}
-
-		root.right = n
-	} else if v < rv {
-		n, err := b.insertByNode(root.left, value)
-		if err != nil {
-			return nil, err
-		}
-
-		root.left = n
-	} else {
-		return nil, ErrDuplicatedNodeValue
 	}
 
-	return root, nil
+	return nil
 }
