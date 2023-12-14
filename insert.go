@@ -1,9 +1,12 @@
 package bst
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var (
-	ErrDuplicatedNodeValue = errors.New("invalid node value, node value already exists")
+	ErrDuplicatedNodeValue = errors.New("duplicated node value")
 )
 
 func (b *bst) Insert(value NodeValue) error {
@@ -26,28 +29,28 @@ func (b *bst) insertNode(value NodeValue) error {
 		return nil
 	}
 
-	v := value.Value()
-	n := b.root
+	curNode := b.root
+	newValue := value.Value()
 
-	var nv int
 	for {
-		nv = n.Value()
-		if v > nv {
-			if n.right == nil {
-				n.right = newNode
+		curValue := curNode.Value()
+
+		if newValue > curValue {
+			if curNode.right == nil {
+				curNode.right = newNode
 				break
 			}
 
-			n = n.right
-		} else if v < nv {
-			if n.left == nil {
-				n.left = newNode
+			curNode = curNode.right
+		} else if newValue < curValue {
+			if curNode.left == nil {
+				curNode.left = newNode
 				break
 			}
 
-			n = n.left
+			curNode = curNode.left
 		} else {
-			return ErrDuplicatedNodeValue
+			return fmt.Errorf("%w: %d", ErrDuplicatedNodeValue, newValue)
 		}
 	}
 

@@ -10,18 +10,18 @@ func (b bst) Search(value int) (NodeValue, bool) {
 }
 
 func (b bst) searchNode(value int) *node {
-	var nv int
-	n := b.root
+	var curValue int
+	curNode := b.root
 
-	for n != nil {
-		nv = n.Value()
+	for curNode != nil {
+		curValue = curNode.Value()
 
-		if value > nv {
-			n = n.right
-		} else if value < nv {
-			n = n.left
+		if value > curValue {
+			curNode = curNode.right
+		} else if value < curValue {
+			curNode = curNode.left
 		} else {
-			return n
+			return curNode
 		}
 	}
 
