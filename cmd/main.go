@@ -2,7 +2,6 @@ package main
 
 import (
 	"bst"
-	"fmt"
 )
 
 type value struct {
@@ -20,10 +19,10 @@ func main() {
 	b.Insert(newNodeValue(9))
 	b.Insert(newNodeValue(4))
 
-	b.PrintValues()
+	b.Delete(5)
+	b.Delete(10)
 
-	fmt.Println(b.Search(3))
-	fmt.Println(b.Search(7))
+	b.PrintValues()
 }
 
 func (v value) Value() int {

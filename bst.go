@@ -12,7 +12,7 @@ type BinarySearchTree interface {
 	// Delete deletes an node from the
 	// tree. Returns true if deleted
 	// and false if node not found.
-	// Delete(int) bool
+	Delete(int) bool
 	// Length returns the number of
 	// nodes in the tree.
 	Length() int
