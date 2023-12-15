@@ -8,7 +8,7 @@ The Binary Search Tree (BST) is a node-based data structure for fast insertion, 
 - The left child node must be lower than the parent node.
 - The right child node must be greater than the parent node.
 
-![Tree](https://github.com/Lucas32-dev/go-bst/blob/main/image.jpeg?raw=true)
+![Tree](https://github.com/Lucas32-dev/go-bst/blob/main/tree.jpeg?raw=true)
 
 ### Time complexity in big O notation
 | Operation | Average | Worst |
