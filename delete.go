@@ -29,20 +29,27 @@ func (b *bst) deleteNode(value int) bool {
 		return false
 	}
 
-	if n.left == nil && n.right == nil {
+	if n.left == nil && n.right == nil { // no child, replace node with nil node
 		b.replaceNode(parent, n, nil)
-	} else if n.left != nil && n.right == nil {
+	} else if n.left != nil && n.right == nil { // have only left child, replace node with left node
 		b.replaceNode(parent, n, n.left)
-	} else if n.left == nil && n.right != nil {
+	} else if n.left == nil && n.right != nil { // have only right child, replace node with right node
 		b.replaceNode(parent, n, n.right)
-	} else {
-		minParent, minNode := b.getMinNode(n.right)
+	} else { // have two childs, replace node with min node from right tree
+		rightNode := n.right
 
-		b.replaceNode(minParent, minNode, minNode.right)
-		b.replaceNode(parent, n, minNode)
+		if rightNode.left == nil { // check if right node is the min node
+			b.replaceNode(parent, n, rightNode)
+			rightNode.left = n.left
+		} else { // find min node in subtree
+			minParent, minNode := b.getMinNode(rightNode)
 
-		minNode.left = n.left
-		minNode.right = n.right
+			b.replaceNode(minParent, minNode, minNode.right)
+			b.replaceNode(parent, n, minNode)
+
+			minNode.left = n.left
+			minNode.right = n.right
+		}
 	}
 
 	return true
@@ -51,6 +58,12 @@ func (b *bst) deleteNode(value int) bool {
 func (b *bst) getMinNode(startNode *node) (minParent *node, minNode *node) {
 	minParent = startNode
 	minNode = startNode.left
+
+	// if left is nil, there is no min node
+	// for the start node
+	if minNode == nil {
+		return minParent, nil
+	}
 
 	for minNode.left != nil {
 		minParent = minNode
