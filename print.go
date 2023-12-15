@@ -6,18 +6,21 @@ import (
 	"strings"
 )
 
-func (b bst) PrintValues() {
+func (b *bst) PrintValues() {
+	b.mux.RLock()
+	defer b.mux.RUnlock()
+
 	sb := &strings.Builder{}
 	b.inOrderTraversal(sb)
-	
+
 	fmt.Println(sb)
 }
 
-func (b bst) inOrderTraversal(sb *strings.Builder) {
+func (b *bst) inOrderTraversal(sb *strings.Builder) {
 	b.inOrderTraversalByNode(b.root, sb)
 }
 
-func (b bst) inOrderTraversalByNode(root *node, sb *strings.Builder) {
+func (b *bst) inOrderTraversalByNode(root *node, sb *strings.Builder) {
 	if root == nil {
 		return
 	}
@@ -26,4 +29,3 @@ func (b bst) inOrderTraversalByNode(root *node, sb *strings.Builder) {
 	sb.WriteString(strconv.Itoa(root.Value()) + " ")
 	b.inOrderTraversalByNode(root.right, sb)
 }
-

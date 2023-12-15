@@ -1,6 +1,9 @@
 package bst
 
 func (b *bst) Delete(value int) bool {
+	b.mux.Lock()
+	defer b.mux.Unlock()
+
 	if ok := b.deleteNode(value); ok {
 		b.len--
 		return true

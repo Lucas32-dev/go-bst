@@ -10,6 +10,9 @@ var (
 )
 
 func (b *bst) Insert(value NodeValue) error {
+	b.mux.Lock()
+	defer b.mux.Unlock()
+
 	err := b.insertNode(value)
 	if err != nil {
 		return err

@@ -1,5 +1,7 @@
 package bst
 
+import "sync"
+
 type BinarySearchTree interface {
 	// Insert adds a new node to the
 	// binary search tree. Returns an
@@ -24,6 +26,8 @@ type BinarySearchTree interface {
 type bst struct {
 	// root is the tree's root node.
 	root *node
+	// mux is the read/write mutext
+	mux sync.RWMutex
 	// len is the number of nodes
 	// in the binary search tree.
 	len int
@@ -34,6 +38,9 @@ func New() BinarySearchTree {
 	return &bst{}
 }
 
-func (b bst) Length() int {
+func (b *bst) Length() int {
+	b.mux.RLock()
+	defer b.mux.RUnlock()
+
 	return b.len
 }
