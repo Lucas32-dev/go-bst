@@ -79,7 +79,7 @@ func (b *bst) getMinNode(startNode *node) (minParent *node, minNode *node) {
 func (b *bst) replaceNode(parent *node, oldNode *node, newNode *node) {
 	if parent == nil {
 		b.root = newNode
-	} else if parent.left.Value() == oldNode.Value() {
+	} else if parent.left != nil && parent.left.Value() == oldNode.Value() {
 		parent.left = newNode
 	} else {
 		parent.right = newNode
