@@ -1,6 +1,9 @@
 package bst
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 func TestInsert(t *testing.T) {
 	b := New()
@@ -42,5 +45,19 @@ func TestInsert(t *testing.T) {
 			t.Errorf("Insert of node value: %d failed, err: %s", test.value, err)
 			continue
 		}
+	}
+}
+
+func BenchmarkInsert(b *testing.B) {
+	tree := New()
+
+	var value int
+	for i := 0; i < b.N; i++ {
+		value = rand.Int()
+
+		// ignore errors due to the possibilty
+		// of getting duplicated values from
+		// rand.Int()
+		_ = tree.Insert(newValueTest(value))
 	}
 }

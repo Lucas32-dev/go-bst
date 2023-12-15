@@ -1,6 +1,9 @@
 package bst
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 type nodeValueTest struct {
 	v int
@@ -73,5 +76,27 @@ func TestSearch(t *testing.T) {
 		if value != nil && value.Value() != test.value {
 			t.Errorf("Search returned wrong node value, got: %d, expected: %d", value.Value(), test.value)
 		}
+	}
+}
+
+func BenchmarkSearch(b *testing.B) {
+	tree := New()
+
+	values := make([]int, b.N)
+
+	var value int
+	for i := 0; i < b.N; i++ {
+		value = rand.Int()
+		values[i] = value
+
+		// ignore errors due to the possibilty
+		// of getting duplicated values from
+		// rand.Int()
+		_ = tree.Insert(newValueTest(value))
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		tree.Search(values[i])
 	}
 }

@@ -1,6 +1,9 @@
 package bst
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 func TestDelete(t *testing.T) {
 	b := New()
@@ -53,4 +56,26 @@ func TestDelete(t *testing.T) {
 	}
 
 	b.PrintValues()
+}
+
+func BenchmarkDelete(b *testing.B) {
+	tree := New()
+
+	values := make([]int, b.N)
+
+	var value int
+	for i := 0; i < b.N; i++ {
+		value = rand.Int()
+		values[i] = value
+
+		// ignore errors due to the possibilty
+		// of getting duplicated values from
+		// rand.Int()
+		_ = tree.Insert(newValueTest(value))
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		tree.Delete(values[i])
+	}
 }
